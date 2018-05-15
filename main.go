@@ -1,11 +1,21 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"log"
+	"net/http"
 
-func sum(x, y int) int {
-	return x + y
+	"github.com/julienschmidt/httprouter"
+)
+
+// Index returns hello message
+func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	fmt.Fprint(w, "Hello!\n")
 }
 
 func main() {
-	fmt.Println("Hello World!")
+	router := httprouter.New()
+	router.GET("/", Index)
+
+	log.Fatal(http.ListenAndServe(":8080", router))
 }
